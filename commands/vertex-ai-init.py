@@ -3,16 +3,22 @@ from google.cloud import aiplatform
 from google.cloud.aiplatform import Model, Endpoint
 from dotenv import load_dotenv
 
-# Load Environment
-load_dotenv()
 
-PROJECT_ID = os.environ['PROJECT_ID']
-REGION = os.environ['PROJECT_REGION']
+########### CONFIG BLOCK ###########33
+load_dotenv()
+ # Registry image tag
+
+TAG = os.environ['TAG']
+IMAGE_NAME = os.environ['IMAGE_NAME']
+ARTIFACT_IMAGE_NAME = os.environ['ARTIFACT_IMAGE_NAME']
 PROJECT_ID = os.environ['PROJECT_ID']
 MODEL_NAME = os.environ['MODEL_NAME']
+REGION = os.environ['PROJECT_REGION']
 ENDPOINT_NAME = os.environ['ENDPOINT_NAME']
 
-CONTAINER_SERVICE = "gcr.io/{PROJECT_ID}/detectron2:090222182654"
+CONTAINER_SERVICE = f"gcr.io/{PROJECT_ID}/{ARTIFACT_IMAGE_NAME}:{TAG}"
+########### CONFIG BLOCK ###########
+
 aiplatform.init(project=PROJECT_ID, location=REGION)
 
 

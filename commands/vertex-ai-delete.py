@@ -4,14 +4,20 @@ from google.cloud import aiplatform_v1
 from google.cloud.aiplatform import Model, Endpoint
 from dotenv import load_dotenv
 
-# Load Environment
+########### CONFIG BLOCK ###########33
 load_dotenv()
+ # Registry image tag
 
+TAG = os.environ['TAG']
+IMAGE_NAME = os.environ['IMAGE_NAME']
+ARTIFACT_IMAGE_NAME = os.environ['ARTIFACT_IMAGE_NAME']
 PROJECT_ID = os.environ['PROJECT_ID']
-REGION = os.environ['PROJECT_REGION']
 MODEL_NAME = os.environ['MODEL_NAME']
+REGION = os.environ['PROJECT_REGION']
 ENDPOINT_NAME = os.environ['ENDPOINT_NAME']
-CONTAINER_SERVICE = "gcr.io/{PROJECT_ID}/detectron2:090222182654"
+
+CONTAINER_SERVICE = f"gcr.io/{PROJECT_ID}/{ARTIFACT_IMAGE_NAME}:{TAG}"
+########### CONFIG BLOCK ###########
 
 def undeploy_model_in_endpoint(
     end_point: str,
@@ -36,7 +42,10 @@ def undeploy_model_in_endpoint(
 
     name=f'projects/{project}/locations/{REGION}/endpoints/{end_point}'
 
-    undeploy_request = aiplatform_v1.types.UndeployModelRequest(endpoint=name,deployed_model_id=deployed_model_id)
+    undeploy_request = aiplatform_v1.types.UndeployModelRequest(
+        endpoint=name,
+        deployed_model_id=deployed_model_i
+    )
     client.undeploy_model(request=undeploy_request)
 
 
